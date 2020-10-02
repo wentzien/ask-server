@@ -15,44 +15,39 @@ app.use(cors());
 app.use(express.json());
 
 io.on("connection", (socket) => {
-  console.log("new connection");
+    console.log("new connection");
 
-  socket.on("join", async (event, callback) => {
+    socket.on("join", async (event) => {
 
-    const data = await db.all(event.id);
+        const data = await db.all(event.id);
 
-    socket.join(event.id);
-    socket.send("questions", data);
+        socket.emit("questions", data);
 
-    callback(data);
-  });
+        socket.join(event.id);
 
-  socket.on("newQuestion", async (question, callback) => {
-    const result = await db.insert(question);
-    console.log(result);
+    });
 
-    const data = await db.all(question.event_id);
+    socket.on("newQuestion", async (question) => {
+        const result = await db.insert(question);
+        console.log(result);
 
-    io.to(question.event_id).emit("questions", data);
-    
-    callback();
-  });
+        const data = await db.all(question.event_id);
 
-  socket.on("newVote", async (id, callback) => {
-    // wichtig, auch die event id übergeben, also eig. die ganze Frage
-    const result = await db.incrementVote(id);
-    console.log(result);
+        io.to(question.event_id).emit("questions", data);
+    });
 
-    const data = await db.all(question.event_id);
+    socket.on("vote", async (question) => {
+        const result = await db.incrementVote(question.id);
+        console.log(result);
 
-    io.to(question.event_id).emit("questions", data);
+        const data = await db.all(question.event_id);
 
-    callback();
-  });
+        io.to(question.event_id).emit("questions", data);
+    });
 
-  socket.on("disconnect", () => {
-    console.log("user left");
-  });
+    socket.on("disconnect", () => {
+        console.log("user left");
+    });
 });
 
 app.use("/questions", questionRouter);
