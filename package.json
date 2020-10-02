@@ -1,0 +1,26 @@
+{
+  "name": "questionvotes-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wentzien/questionvotes-express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wentzien/questionvotes-express/issues"
+  },
+  "homepage": "https://github.com/wentzien/questionvotes-express#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "joi": "^17.2.1",
+    "mysql": "^2.18.1"
+  }
+}
