@@ -17,11 +17,37 @@ app.use(express.json());
 io.on("connection", (socket) => {
   console.log("new connection");
 
-  socket.on('join', async (id, callback) => {
+  socket.on("join", async (event, callback) => {
 
-    const data = await db.all(id.id);
+    const data = await db.all(event.id);
+
+    socket.join(event.id);
+    socket.send("questions", data);
 
     callback(data);
+  });
+
+  socket.on("newQuestion", async (question, callback) => {
+    const result = await db.insert(question);
+    console.log(result);
+
+    const data = await db.all(question.event_id);
+
+    io.to(question.event_id).emit("questions", data);
+    
+    callback();
+  });
+
+  socket.on("newVote", async (id, callback) => {
+    // wichtig, auch die event id übergeben, also eig. die ganze Frage
+    const result = await db.incrementVote(id);
+    console.log(result);
+
+    const data = await db.all(question.event_id);
+
+    io.to(question.event_id).emit("questions", data);
+
+    callback();
   });
 
   socket.on("disconnect", () => {
