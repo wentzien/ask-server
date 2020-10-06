@@ -33,17 +33,26 @@ io.on("connection", (socket) => {
 
         const data = await db.all(question.event_id);
 
+        socket.emit("newQuestionResult", result);
         io.to(question.event_id).emit("questions", data);
     });
 
     socket.on("vote", async (question) => {
         const result = await db.incrementVote(question.id);
-        console.log(result);
 
         const data = await db.all(question.event_id);
 
         io.to(question.event_id).emit("questions", data);
     });
+
+    socket.on("delete", async (question) => {
+        const result = await db.delete(question.id);
+
+        const data = await db.all(question.event_id);
+
+        io.to(question.event_id).emit("questions", data);
+
+    })
 
     socket.on("disconnect", () => {
         console.log("user left");

@@ -41,9 +41,20 @@ db.incrementVote = (id) => {
     return new Promise((resolve, reject) => {
         pool.query('UPDATE question SET votes = votes + 1 WHERE id = ?', id,
             (err, rows, fields) => {
-            if (err) return reject(err);
-            return resolve(rows);
+                if (err) return reject(err);
+                return resolve(rows);
             });
-    })
+    });
 }
+
+db.delete = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('DELETE from question WHERE id = ?', id,
+            (err, rows, fields) => {
+                if (err) return reject(err);
+                return resolve(rows);
+            });
+    });
+}
+
 module.exports = db;
