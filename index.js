@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 const questionRouter = require("./routes/questions");
+const eventRouter = require("./routes/events");
 const db = require("./db/mysql");
 
 app.use(cors());
@@ -60,6 +61,7 @@ io.on("connection", (socket) => {
 });
 
 app.use("/questions", questionRouter);
+app.use("/events", eventRouter);
 
 // Port
 const port = process.env.PORT || 5000;

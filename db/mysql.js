@@ -22,7 +22,6 @@ db.all = (event_id) => {
 };
 
 db.insert = (question) => {
-    console.log(question);
     const fields = [
         question.question,
         question.event_id
@@ -56,5 +55,30 @@ db.delete = (id) => {
             });
     });
 }
+
+db.createEvent = (event) => {
+    const fields = [
+        event.id,
+        event.creator_key
+    ];
+    return new Promise((resolve, reject) => {
+        pool.query('INSERT INTO event (id, creator_key) VALUES (?, ?)',
+            fields,
+            (err, rows, fields) => {
+                if (err) return reject(err);
+                return resolve(rows);
+            });
+    });
+}
+
+db.getCreatorKey = (id) => {
+
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM event WHERE id = ?', id, (err, rows, fields) => {
+            if (err) return reject(err);
+            return resolve(rows);
+        });
+    });
+};
 
 module.exports = db;
