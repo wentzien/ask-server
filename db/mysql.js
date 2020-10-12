@@ -81,4 +81,14 @@ db.getCreatorKey = (id) => {
     });
 };
 
+db.answered = (id) => {
+    return new Promise((resolve, reject) => {
+        pool.query('UPDATE question SET answered = 1 WHERE id = ?', id,
+            (err, rows, fields) => {
+                if (err) return reject(err);
+                return resolve(rows);
+            });
+    });
+}
+
 module.exports = db;

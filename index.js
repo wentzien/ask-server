@@ -53,7 +53,15 @@ io.on("connection", (socket) => {
 
         io.to(question.event_id).emit("questions", data);
 
-    })
+    });
+
+    socket.on("answered", async (question) => {
+        const result = await db.answered(question.id);
+
+        const data = await db.all(question.event_id);
+
+        io.to(question.event_id).emit("question", data);
+    });
 
     socket.on("disconnect", () => {
         console.log("user left");
