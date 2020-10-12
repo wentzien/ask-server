@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
 
         const data = await db.all(question.event_id);
 
-        io.to(question.event_id).emit("question", data);
+        io.to(question.event_id).emit("questions", data);
     });
 
     socket.on("disconnect", () => {
