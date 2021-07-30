@@ -7,13 +7,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
+app.use(cors());
+app.use(express.json());
+
 const questionRouter = require("./routes/questions");
 const eventRouter = require("./routes/events");
 const db = require("./db/mysql");
-
-app.use(cors());
-
-app.use(express.json());
 
 io.on("connection", (socket) => {
     console.log("new connection");
@@ -72,5 +71,5 @@ app.use("/questions", questionRouter);
 app.use("/events", eventRouter);
 
 // Port
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 server.listen(port, () => console.log(`App listening on port ${port}...)`));
