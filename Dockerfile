@@ -15,4 +15,4 @@ RUN npm install
 
 COPY . .
 
-CMD npm run build && node server.js
+CMD node server.js
