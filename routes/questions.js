@@ -60,7 +60,6 @@ router.put('/:id', async (req, res) => {
 
     try {
         const result = await db.incrementVote(id);
-        console.log(result);
         if (result.changedRows) return res.json(result);
         return res.sendStatus(400);
     } catch (err) {

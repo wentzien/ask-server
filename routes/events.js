@@ -40,7 +40,6 @@ router.post('/', async (req, res) => {
 
     try {
         const result = await db.createEvent(event);
-        console.log(result);
         if (result.serverStatus === 2) return res.json(result);
         return res.sendStatus(400);
     } catch (err) {

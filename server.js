@@ -15,8 +15,6 @@ const eventRouter = require("./routes/events");
 const db = require("./db/mysql");
 
 io.on("connection", (socket) => {
-    console.log("new connection");
-
     socket.on("join", async (event) => {
 
         const data = await db.all(event.id);
